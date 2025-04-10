@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  # Servicio de Base de Datos (PostgreSQL)
+  database:
+    image: postgres:15-alpine
+    container_name: todo_database
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Verifica si postgres está listo para aceptar comandos
+      test: ["CMD-SHELL", "pg_isready -U user -d mydatabase"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - todonet
+
+  # Servicio del Backend (NestJS)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: todo_server
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+    env_file:
+      - ./server/.env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      PORT: ${PORT:-4000}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      database:
+        condition: service_healthy # Espera a que la base de datos esté lista
+    networks:
+      - todonet
+
+# Definición de Redes
+networks:
+  todonet:
+    driver: bridge
+
+# Definición de Volúmenes
+volumes:
+  postgres_data: # Volumen para persistencia de la base de datos
