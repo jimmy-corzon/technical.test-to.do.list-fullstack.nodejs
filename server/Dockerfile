@@ -11,19 +11,19 @@ COPY tsconfig*.json ./
 COPY prisma ./prisma
 
 # Instalar dependencias
-RUN npm install
+RUN yarn install
 
 # Copiar el código fuente
 COPY ./src ./src
 
 # Generar el cliente de Prisma
-RUN npx prisma generate
+RUN yarn prisma generate
 
 # Compilar el proyecto
-RUN npm run build
+RUN yarn build
 
 # Exponer el puerto
 EXPOSE 4000
 
 # Comando para iniciar la aplicación
-CMD ["npm", "run", "start:prod"]
+CMD ["yarn", "start:prod"]
