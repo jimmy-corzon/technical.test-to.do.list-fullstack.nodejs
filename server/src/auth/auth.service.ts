@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 import { compare, encrypt } from 'src/libs/hashing';
 import { PrismaService } from 'src/prisma/prisma.service';
 
