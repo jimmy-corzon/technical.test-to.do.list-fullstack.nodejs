@@ -36,19 +36,25 @@ PORT=4000
 
 ## Instrucciones para ejecutar el proyecto
 
-### 1. Construir y ejecutar los contenedores con Docker
+### 1. Crear una base de datos temporal con Docker
+
+Si no tienes una base de datos PostgreSQL configurada, puedes crear una base de datos temporal con el siguiente comando:
 
 ```bash
-docker-compose up --build
+docker run --name todo-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
 ```
 
-Esto levantará los siguientes servicios:
+### 2. Ejecutar el backend manualmente
 
-- **Base de datos**: PostgreSQL en `localhost:5432`
-- **Backend**: Nest.js en `http://localhost:4000`
-- **Frontend**: (si está configurado) en `http://localhost:3000`
+Por el momento, Docker no está funcionando correctamente para este proyecto. Por lo tanto, debes ejecutar el backend de forma manual. Sigue estos pasos:
 
-### 2. Acceder a la documentación de la API
+1. Ve a la carpeta `server`.
+2. Instala las dependencias con `npm install`.
+3. Ejecuta el servidor con `npm run start:dev`.
+
+El backend estará disponible en `http://localhost:4000`.
+
+### 3. Acceder a la documentación de la API
 
 La documentación de la API está disponible en Swagger en la siguiente URL:
 

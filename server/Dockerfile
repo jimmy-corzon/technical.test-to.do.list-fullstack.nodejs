@@ -1,29 +1,24 @@
-# filepath: /home/jiuser/WorkSpace/Jimmy Corzon/technical.test-to.do.list-fullstack.nodejs/server/Dockerfile
-# Imagen base
-FROM node:18-alpine
+# Usar la imagen base de Node.js
+FROM node:20.11.1-alpine
 
 # Establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos necesarios
+# Copiar package.json y package-lock.json
 COPY package*.json ./
-COPY tsconfig*.json ./ 
-COPY prisma ./prisma
 
 # Instalar dependencias
-RUN yarn install
+RUN npm cache clean --force
+RUN npm install --legacy-peer-deps
 
-# Copiar el código fuente
-COPY ./src ./src
+# Copiar el resto del código de la aplicación
+COPY . .
 
-# Generar el cliente de Prisma
-RUN yarn prisma generate
+# Generar el código del cliente Prisma
+RUN npx prisma generate
 
-# Compilar el proyecto
-RUN yarn build
-
-# Exponer el puerto
+# Mostrar el puerto en el que se ejecuta la aplicación
 EXPOSE 4000
 
-# Comando para iniciar la aplicación
-CMD ["yarn", "start:prod"]
+# Comando para ejecutar la aplicación
+CMD [  "npm", "run", "start:migrate:prod" ]
