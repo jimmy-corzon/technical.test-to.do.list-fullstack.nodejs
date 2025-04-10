@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuario
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tasks Task[]
+
+  @@map("users")
+}
+
+// Modelo de Tarea
+model Task {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  completed   Boolean @default(false)
+  is_private  Boolean @default(false)
+
+  owner_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+
+  @@map("tasks")
+}
