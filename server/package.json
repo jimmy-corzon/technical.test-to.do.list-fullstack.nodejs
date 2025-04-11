@@ -24,7 +24,8 @@
     "prisma:deploy": "npx prisma migrate deploy",
     "prisma:reset": "npx prisma migrate reset --skip-seed",
     "prisma:seed": "npx prisma db seed",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "init:db": "bash ../scripts/init_temp_db.sh"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
