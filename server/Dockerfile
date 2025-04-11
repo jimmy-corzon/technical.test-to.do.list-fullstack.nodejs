@@ -17,8 +17,11 @@ COPY . .
 # Generar el código del cliente Prisma
 RUN npx prisma generate
 
+# AÑADIR ESTE PASO: Construir la aplicación
+RUN npm run build
+
 # Mostrar el puerto en el que se ejecuta la aplicación
 EXPOSE 4000
 
 # Comando para ejecutar la aplicación
-CMD [  "npm", "run", "start:migrate:prod" ]
+CMD [ "npm", "run", "start:migrate:prod" ]

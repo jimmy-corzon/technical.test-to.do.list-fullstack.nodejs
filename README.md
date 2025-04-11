@@ -27,34 +27,30 @@ Este proyecto es una aplicación fullstack de lista de tareas que utiliza **Nest
 Crea un archivo `.env` en la carpeta `server` con el siguiente contenido:
 
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase?schema=public"
-JWT_SECRET="JWT_SUPER_SECRET"
-PORT=4000
+# Base de Datos
+DATABASE_URL="postgresql://user:password@database:5432/mydatabase?schema=public"
+
+# JWT
+JWT_SECRET=tu_secreto_aqui
 ```
 
 ---
 
 ## Instrucciones para ejecutar el proyecto
 
-### 1. Crear una base de datos temporal con Docker
-
-Si no tienes una base de datos PostgreSQL configurada, puedes crear una base de datos temporal con el siguiente comando:
+### 1. Construir y ejecutar los contenedores con Docker
 
 ```bash
-docker run --name todo-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+docker-compose up --build
 ```
 
-### 2. Ejecutar el backend manualmente
+Esto levantará los siguientes servicios:
 
-Por el momento, Docker no está funcionando correctamente para este proyecto. Por lo tanto, debes ejecutar el backend de forma manual. Sigue estos pasos:
+- **Base de datos**: PostgreSQL en `localhost:5432`
+- **Backend**: Nest.js en `http://localhost:4000`
+- **Frontend**: (si está configurado) en `http://localhost:3000`
 
-1. Ve a la carpeta `server`.
-2. Instala las dependencias con `npm install`.
-3. Ejecuta el servidor con `npm run start:dev`.
-
-El backend estará disponible en `http://localhost:4000`.
-
-### 3. Acceder a la documentación de la API
+### 2. Acceder a la documentación de la API
 
 La documentación de la API está disponible en Swagger en la siguiente URL:
 
